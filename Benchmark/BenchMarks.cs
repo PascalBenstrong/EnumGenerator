@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using SampleTest;
-using SampleTest.Generated.EnumExtensions;
+using SampleTest.Generated;
 
 namespace Benchmark
 {

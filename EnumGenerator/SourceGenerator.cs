@@ -13,24 +13,6 @@ namespace EnumGenerator
     [Generator]
     public class SourceGenerator : ISourceGenerator
     {
-        private static NamespaceDeclarationSyntax GetNameSpace(SyntaxNode node)
-        {
-            static NamespaceDeclarationSyntax GetNodeRecursive(SyntaxNode child, SyntaxNode parent)
-            {
-                if (child is null)
-                    return null;
-
-                if (child is NamespaceDeclarationSyntax _namespace)
-                {
-                    return _namespace;
-                }
-                return GetNodeRecursive(parent, parent?.Parent);
-            }
-
-            return GetNodeRecursive(node, node?.Parent);
-
-        }
-
         private static string GetFromEnumMembers(EnumDeclarationSyntax enumSyntax)
         {
             StringBuilder sb = new();
@@ -41,22 +23,24 @@ namespace EnumGenerator
                 var attributes = enumMember.AttributeLists.SelectMany(x => x.Attributes)
                     .Where(x => x.Name.ToString() == "JsonPropertyName");
 
-                attributes ??= enumMember.AttributeLists.SelectMany(x => x.Attributes)
-                    .Where(x => x.Name.ToString() == "EnumMember");
+                attributes = !attributes.Any() ? enumMember.AttributeLists.SelectMany(x => x.Attributes)
+                    .Where(x => x.Name.ToString() == "EnumMember") : Enumerable.Empty<AttributeSyntax>();
 
-                if (attributes is not null)
+                if (attributes.Any())
                 {
                     StringBuilder sb = new ();
 
+                    int count = 0;
                     foreach (var attribute in attributes)
                     {
+                        count++;
                         sb.Append(attribute.ArgumentList.Arguments
                         .Where(x => x.Expression.Kind() == SyntaxKind.StringLiteralExpression)
                         .FirstOrDefault().Expression.ChildTokens()
                         .FirstOrDefault(x => x.IsKind(SyntaxKind.StringLiteralToken)).ValueText).Append(" |");
                     }
 
-                    if (sb.Length > 0)
+                    if (count > 0)
                         return sb.Remove(sb.Length - 2, 2).ToString();
                 }
 
@@ -179,13 +163,13 @@ $@"{"\t\t"}public static string GetString(this {enumDeclaration.Identifier.Value
 
             if (!enumDeclarations.Any())
                 return;
-            var _namespace = GetNameSpace(enumDeclarations.First()).Name;
+            var _namespace = context.Compilation.AssemblyName;
             StringBuilder sourceBuilder = new();
             sourceBuilder.Append($@"
 using System;
 {string.Join(Environment.NewLine, syntaxReciever.UsingNamespaces)}
 
-namespace {_namespace}.Generated.EnumExtensions
+namespace {_namespace}.Generated
 {{
     public static partial class EnumExtensions
     {{
@@ -210,81 +194,5 @@ namespace {_namespace}.Generated.EnumExtensions
             }
 #endif
         }
-    }
-
-    internal class EnumSyntaxReciever : ISyntaxReceiver
-    {
-        public IList<EnumDeclarationSyntax> EnumDeclarations { get; } = new List<EnumDeclarationSyntax>();
-        public void OnVisitSyntaxNode(SyntaxNode syntaxNode)
-        {
-            if(syntaxNode is EnumDeclarationSyntax enumDeclaration)
-            {
-                var attributes = enumDeclaration.AttributeLists.SelectMany(x => x.Attributes).Any(x => x.Name.ToString() == typeof(GenerateStringsAttribute).Name);
-                EnumDeclarations.Add(enumDeclaration);
-            }
-        }
-    }
-
-    internal class EnumSyntaxContextReceiver : ISyntaxContextReceiver
-    {
-        private List<EnumGenData> _enumDeclarations = new();
-        private HashSet<string> _usingNamespaces = new();
-        private GenerateStringFor? _generateFor;
-        public IEnumerable<EnumDeclarationSyntax> EnumDeclarations => (!_generateFor.HasValue || _generateFor == GenerateStringFor.All)
-            ? _enumDeclarations.Select(x => x.DeclarationSyntax) 
-            : _enumDeclarations.Where(x => x.Type == _generateFor).Select(x => x.DeclarationSyntax);
-
-        public IEnumerable<string> UsingNamespaces => _usingNamespaces;
-        public void OnVisitSyntaxNode(GeneratorSyntaxContext context)
-        {
-            
-            if(context.Node is CompilationUnitSyntax compilationDeclaration)
-            {
-                var attribute = compilationDeclaration.AttributeLists.SelectMany(x => x.Attributes)
-                    .FirstOrDefault(x => context.SemanticModel.GetSymbolInfo(x).Symbol.ContainingType.Name == typeof(GenerateEnumStringsForAttribute).Name);
-                if(attribute != null)
-                {
-                    if (_generateFor != null)
-                        throw new NotSupportedException($"Only one {typeof(GenerateEnumStringsForAttribute)} is allowed per assembly!");
-
-
-                    var name = attribute.ArgumentList == null ? null : context.SemanticModel.GetSymbolInfo(attribute.ArgumentList.Arguments.FirstOrDefault()?.Expression).Symbol?.Name;
-
-                    _generateFor = name == nameof(GenerateStringFor.MarkedEnums) ? GenerateStringFor.MarkedEnums : GenerateStringFor.All;
-                }
-
-            }
-
-            else if (context.Node is EnumDeclarationSyntax enumDeclaration)
-            {
-                var enumDef = context.SemanticModel.GetDeclaredSymbol(context.Node)!;
-                var shouldGenStrings = enumDef.GetAttributes().Any(x => x.AttributeClass.Name == typeof(GenerateStringsAttribute).Name);
-                _enumDeclarations.Add(new() { DeclarationSyntax = enumDeclaration, Type = shouldGenStrings ? GenerateStringFor.MarkedEnums : null });
-                _usingNamespaces.Add($"using {CreateNamespace(enumDef.ContainingNamespace)};");
-
-            }
-        }
-
-        internal static string CreateNamespace(INamespaceSymbol symbol)
-        {
-            if(symbol == null)
-                return null;
-
-            StringBuilder builder = new(symbol.Name);
-
-            while((symbol = symbol.ContainingNamespace) != null && !string.IsNullOrWhiteSpace(symbol.Name))
-            {
-                builder.Insert(0, symbol.Name+".");
-            }
-            return builder.ToString();
-        }
-
-    }
-
-
-    internal struct EnumGenData
-    {
-        public GenerateStringFor? Type { get; set; }
-        public EnumDeclarationSyntax DeclarationSyntax { get; set; }
     }
 }

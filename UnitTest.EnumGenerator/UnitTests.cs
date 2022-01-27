@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using FluentAssertions;
-using SampleTest.Generated.EnumExtensions;
+using SampleTest.Generated;
 using SampleTest;
 using Xunit;
 using System;
