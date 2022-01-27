@@ -3,7 +3,8 @@ name: Release to Nuget
 on:
   push:
     tags:
-      - "v*"
+      - "v*-beta*"
+      - "v*-rc*"
   workflow_dispatch:
     branches: [main, nuget]
 
@@ -54,7 +55,7 @@ jobs:
           command="$command -p:FileVersion=${{ steps.version.outputs.version-without-v }}"
           command="$command -p:PackageReleaseNotes=\"See ${{ env.PACKAGE_RELEASE_NOTES_URL }}${{ steps.version.outputs.version }}\""
           command="$command -p:RepositoryUrl=\"${{ env.GITHUB_REPO_URL }}\""
-
+          echo "-------------------------- dotnet pack command --------------"
           echo $command
           dotnet pack $command
 
