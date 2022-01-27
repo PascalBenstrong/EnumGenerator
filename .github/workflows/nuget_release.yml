@@ -32,9 +32,12 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ env.DOT_NET_VERSION }}
+          
+      - name: Run Restore
+        run: dotnet restore
 
       - name: Run Tests
-        run: dotnet test
+        run: dotnet test -c Release --no-build
 
       - name: Build Project
         run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore
