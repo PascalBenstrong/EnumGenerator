@@ -11,11 +11,11 @@ env:
   TAG_NAME: ${{ github.event.release.tag_name }} 
   PROJECT_PATH: ./EnumGenerator
   ARTIFACT_NAME: EnumGenerator
-  PACKAGE_RELEASE_NOTES_URL: https://github.com/$GITHUB_REPOSITORY/releases/tag/
+  PACKAGE_RELEASE_NOTES_URL: https://github.com/${{ github.repository }}/releases/tag/
   PACKAGE_OUTPUT_DIRECTORY: ${{ github.workspace }}/output
   NUGET_SOURCE_URL: https://api.nuget.org/v3/index.json
   NUGET_AUTH_TOKEN: ${{ secrets.NUGET_AUTH_TOKEN }}
-  GITHUB_REPO_URL: https://github.com/$GITHUB_REPOSITORY 
+  GITHUB_REPO_URL: https://github.com/${{ github.repository }} 
   GITHUB_SOURCE_URL: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
   DOT_NET_VERSION: 6.*
   DRAFT: true
