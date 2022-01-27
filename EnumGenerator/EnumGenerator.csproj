@@ -24,6 +24,10 @@
 		<IncludeBuildOutput>false</IncludeBuildOutput>
 		<Authors>Pascal Benstrong</Authors>
 	</PropertyGroup>
+	
+	<PropertyGroup>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	</PropertyGroup>
 
 
   <ItemGroup>

@@ -50,10 +50,10 @@ jobs:
         run: |
           command="pack ${{ env.PROJECT_PATH }} -c Release"
           command="$command --no-restore --include-symbols --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}"
-          command="$command /p:AssemblyVersion=${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}"
-          command="$command /p:FileVersion=${{ steps.version.outputs.version-without-v }}"
-          command="$command /p:PackageReleaseNotes=\"See ${{ env.PACKAGE_RELEASE_NOTES_URL }}${{ steps.version.outputs.version }}\""
-          command="$command /p:RepositoryUrl=\"${{ env.GITHUB_REPO_URL }}\""
+          command="$command -p:AssemblyVersion=${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}"
+          command="$command -p:FileVersion=${{ steps.version.outputs.version-without-v }}"
+          command="$command -p:PackageReleaseNotes=\"See ${{ env.PACKAGE_RELEASE_NOTES_URL }}${{ steps.version.outputs.version }}\""
+          command="$command -p:RepositoryUrl=\"${{ env.GITHUB_REPO_URL }}\""
 
           echo $command
           dotnet pack $command
