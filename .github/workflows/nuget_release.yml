@@ -54,6 +54,8 @@ jobs:
           command="$command /p:FileVersion=${{ steps.version.outputs.version-without-v }}"
           command="$command /p:PackageReleaseNotes=\"See ${{ env.PACKAGE_RELEASE_NOTES_URL }}${{ steps.version.outputs.version }}\""
           command="$command /p:RepositoryUrl=\"${{ env.GITHUB_REPO_URL }}\""
+
+          echo $command
           dotnet pack $command
 
       - name: Push Package to Nuget
