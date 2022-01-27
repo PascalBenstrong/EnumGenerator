@@ -14,7 +14,7 @@
 		<RepositoryUrl>https://github.com/PascalBenstrong/EnumGenerator.git</RepositoryUrl>
 		<AssemblyVersion>0.0.1</AssemblyVersion>
 		<FileVersion>$(AssemblyVersion)</FileVersion>
-		<Version>$(AssemblyVersion)-beta</Version>
+		<Version>$(FileVersion)</Version>
 		<PackageTags>C# enum string generator converter</PackageTags>
 		<PackageReleaseNotes></PackageReleaseNotes>
 		<Configurations>Debug;Release;Preview;Release-rc</Configurations>
@@ -28,6 +28,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <None Remove="bin\Release\netstandard2.0\\EnumGenerator.dll" />
   </ItemGroup>
 
 	<ItemGroup>
