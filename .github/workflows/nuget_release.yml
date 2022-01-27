@@ -5,17 +5,17 @@ on:
     tags:
       - "v*"
   workflow_dispatch:
-    branches: [ main, nuget ]
+    branches: [main, nuget]
 
 env:
-  TAG_NAME: ${{ github.event.release.tag_name }} 
+  TAG_NAME: ${{ github.event.release.tag_name }}
   PROJECT_PATH: ./EnumGenerator
   ARTIFACT_NAME: EnumGenerator
   PACKAGE_RELEASE_NOTES_URL: https://github.com/${{ github.repository }}/releases/tag/
   PACKAGE_OUTPUT_DIRECTORY: ${{ github.workspace }}/output
   NUGET_SOURCE_URL: https://api.nuget.org/v3/index.json
   NUGET_AUTH_TOKEN: ${{ secrets.NUGET_AUTH_TOKEN }}
-  GITHUB_REPO_URL: https://github.com/${{ github.repository }} 
+  GITHUB_REPO_URL: https://github.com/${{ github.repository }}
   GITHUB_SOURCE_URL: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
   DOT_NET_VERSION: 6.*
   DRAFT: false
@@ -32,7 +32,7 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ env.DOT_NET_VERSION }}
-          
+
       - name: Run Restore
         run: dotnet restore
 
@@ -47,11 +47,17 @@ jobs:
         uses: battila7/get-version-action@v2
 
       - name: Create Nuget Package
-        run: dotnet pack ${{ env.PROJECT_PATH }} -c Release --no-restore --include-symbols --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }} -p:PackageVersion=${{ steps.version.outputs.version-without-v }} -p:PackageReleaseNotes="See ${{ env.PACKAGE_RELEASE_NOTES_URL }}${{ steps.version.outputs.version }}" -p:RepositoryUrl="${{ env.GITHUB_REPO_URL }}"
+        run: |
+          dotnet pack ${{ env.PROJECT_PATH }} -c Release \ 
+          --no-restore --include-symbols --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }} \
+          /p:AssemblyVersion=${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }} \
+          /p:FileVersion=${{ steps.version.outputs.version-without-v }} \
+          /p:PackageReleaseNotes="See ${{ env.PACKAGE_RELEASE_NOTES_URL }}${{ steps.version.outputs.version }}" \
+          /p:RepositoryUrl="${{ env.GITHUB_REPO_URL }}"
 
       - name: Push Package to Nuget
         run: dotnet nuget push ${{ env.PACKAGE_OUTPUT_DIRECTORY }}/*.nupkg --skip-duplicate -k ${{ env.NUGET_AUTH_TOKEN }} -s ${{ env.NUGET_SOURCE_URL }}
-        
+
       - name: Push Package to GitHub
         run: dotnet nuget push ${{ env.PACKAGE_OUTPUT_DIRECTORY }}/*.nupkg --skip-duplicate -k ${{ secrets.GITHUB_TOKEN }} -s ${{ env.GITHUB_SOURCE_URL }}
 
@@ -59,12 +65,12 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ env.ARTIFACT_NAME }}.${{ steps.version.outputs.version-without-v }}.nupkg
-          path: '${{ env.PACKAGE_OUTPUT_DIRECTORY }}/*.nupkg'
-          
+          path: "${{ env.PACKAGE_OUTPUT_DIRECTORY }}/*.nupkg"
+
       - name: Zip Archive
         run: |
           zip --junk-paths ${{ env.ARTIFACT_NAME }}.${{ steps.version.outputs.version-without-v }}.zip ${{ env.PACKAGE_OUTPUT_DIRECTORY }}/*.nupkg
-          
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -75,14 +81,14 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: ${{ env.DRAFT }}
           prerelease: ${{ env.PRERELEASE }}
-          
+
       - name: Upload Release Asset
-        id: upload-release-asset 
+        id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
           asset_path: ./${{ env.ARTIFACT_NAME }}.${{ steps.version.outputs.version-without-v }}.zip
           asset_name: ${{ env.ARTIFACT_NAME }}.${{ steps.version.outputs.version-without-v }}.nupkg.zip
           asset_content_type: application/zip
