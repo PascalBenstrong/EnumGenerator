@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - "v*"
+    branches:
+      - main
   workflow_dispatch:
     branches: [ main, nuget ]
 
@@ -37,7 +39,7 @@ jobs:
         run: dotnet restore
 
       - name: Run Tests
-        run: dotnet test -c Release --no-build
+        run: dotnet test -c Release
 
       - name: Build Project
         run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore
