@@ -48,12 +48,13 @@ jobs:
 
       - name: Create Nuget Package
         run: |
-          dotnet pack ${{ env.PROJECT_PATH }} -c Release \ 
-          --no-restore --include-symbols --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }} \
-          /p:AssemblyVersion=${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }} \
-          /p:FileVersion=${{ steps.version.outputs.version-without-v }} \
-          /p:PackageReleaseNotes="See ${{ env.PACKAGE_RELEASE_NOTES_URL }}${{ steps.version.outputs.version }}" \
-          /p:RepositoryUrl="${{ env.GITHUB_REPO_URL }}"
+          command="pack ${{ env.PROJECT_PATH }} -c Release"
+          command="$command --no-restore --include-symbols --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}"
+          command="$command /p:AssemblyVersion=${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}"
+          command="$command /p:FileVersion=${{ steps.version.outputs.version-without-v }}"
+          command="$command /p:PackageReleaseNotes=\"See ${{ env.PACKAGE_RELEASE_NOTES_URL }}${{ steps.version.outputs.version }}\""
+          command="$command /p:RepositoryUrl=\"${{ env.GITHUB_REPO_URL }}\""
+          dotnet pack $command
 
       - name: Push Package to Nuget
         run: dotnet nuget push ${{ env.PACKAGE_OUTPUT_DIRECTORY }}/*.nupkg --skip-duplicate -k ${{ env.NUGET_AUTH_TOKEN }} -s ${{ env.NUGET_SOURCE_URL }}
