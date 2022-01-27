@@ -18,7 +18,7 @@ env:
   GITHUB_REPO_URL: https://github.com/${{ github.repository }} 
   GITHUB_SOURCE_URL: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
   DOT_NET_VERSION: 6.*
-  DRAFT: true
+  DRAFT: false
   PRERELEASE: true
 
 jobs:
