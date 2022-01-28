@@ -10,7 +10,7 @@ on:
 
 env:
   TAG_NAME: ${{ github.event.release.tag_name }}
-  PROJECT_PATH: ./EnumGenerator/EnumGenerator.csproj
+  PROJECT_PATH: ./EnumGenerator
   ARTIFACT_NAME: EnumGenerator
   PACKAGE_RELEASE_NOTES_URL: https://github.com/${{ github.repository }}/releases/tag/
   PACKAGE_OUTPUT_DIRECTORY: ${{ github.workspace }}/output
@@ -54,9 +54,8 @@ jobs:
           FileVersion: ${{ steps.version.outputs.version-without-v }}
           PackageReleaseNotes: "See ${{ env.PACKAGE_RELEASE_NOTES_URL }}${{ steps.version.outputs.version }}"
           RepositoryUrl: "${{ env.GITHUB_REPO_URL }}"
-          PackageProperties: -p:AssemblyVersion=${{ env.AssemblyVersion }} -p:FileVersion=${{ env.FileVersion }} -p:PackageReleaseNotes=${{ env.PackageReleaseNotes }} -p:RepositoryUrl=${{ env.RepositoryUrl }}
 
-        run: dotnet pack ${{ env.Command }} ${{ env.PackageProperties }}
+        run: dotnet pack ${{ env.Command }} -p:AssemblyVersion=${{ env.AssemblyVersion }} -p:FileVersion=${{ env.FileVersion }} -p:PackageReleaseNotes=${{ env.PackageReleaseNotes }} -p:RepositoryUrl=${{ env.RepositoryUrl }}
 
       - name: Push Package to Nuget
         run: dotnet nuget push ${{ env.PACKAGE_OUTPUT_DIRECTORY }}/*.nupkg --skip-duplicate -k ${{ env.NUGET_AUTH_TOKEN }} -s ${{ env.NUGET_SOURCE_URL }}
