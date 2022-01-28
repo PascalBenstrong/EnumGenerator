@@ -48,16 +48,15 @@ jobs:
         uses: battila7/get-version-action@v2
 
       - name: Create Nuget Package
-        run: |
-          command="pack ${{ env.PROJECT_PATH }} -c Release"
-          command="$command --no-restore --include-symbols --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}"
-          command="$command -p:AssemblyVersion=${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}"
-          command="$command -p:FileVersion=${{ steps.version.outputs.version-without-v }}"
-          command="$command -p:PackageReleaseNotes=\"See ${{ env.PACKAGE_RELEASE_NOTES_URL }}${{ steps.version.outputs.version }}\""
-          command="$command -p:RepositoryUrl=\"${{ env.GITHUB_REPO_URL }}\""
-          echo "-------------------------- dotnet pack command --------------"
-          echo $command
-          dotnet $command
+        env:
+          Command: pack ${{ env.PROJECT_PATH }} -c Release --no-restore --include-symbols --output ${{ env.PACKAGE_OUTPUT_DIRECTORY }}
+          AssemblyVersion: ${{ steps.version.outputs.major }}.${{ steps.version.outputs.minor }}.${{ steps.version.outputs.patch }}
+          FileVersion: ${{ steps.version.outputs.version-without-v }}
+          PackageReleaseNotes: "See ${{ env.PACKAGE_RELEASE_NOTES_URL }}${{ steps.version.outputs.version }}"
+          RepositoryUrl: "${{ env.GITHUB_REPO_URL }}"
+          PackageProperties: -p:AssemblyVersion=${{ env.AssemblyVersion }} -p:FileVersion=${{ env.FileVersion }} -p:PackageReleaseNotes=${{ env.PackageReleaseNotes }} -p:RepositoryUrl=${{ env.RepositoryUrl }}
+
+        run: dotnet pack ${{ env.Command }} ${{ env.PackageProperties }}
 
       - name: Push Package to Nuget
         run: dotnet nuget push ${{ env.PACKAGE_OUTPUT_DIRECTORY }}/*.nupkg --skip-duplicate -k ${{ env.NUGET_AUTH_TOKEN }} -s ${{ env.NUGET_SOURCE_URL }}
