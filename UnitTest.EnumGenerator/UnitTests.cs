@@ -1,8 +1,8 @@
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using FluentAssertions;
-using SampleTest.Generated;
 using SampleTest;
+using SampleTest.Extensions;
 using Xunit;
 using System;
 
@@ -12,26 +12,55 @@ namespace UnitTest.EnumGenerator
     public class UnitTests
     {
         [Fact]
-        public void Test_JsonPropertyEnum_Should_Pass()
+        public void Test_JsonPropertyEnum_AsString_Should_Pass()
         {
 
-            JsonPropertyEnum.One.GetString().Should().Be("One");
-            JsonPropertyEnum.Two.GetString().Should().Be("Two");
-            JsonPropertyEnum.Three.GetString().Should().Be("Three");
-            JsonPropertyEnum.Four.GetString().Should().Be("Four");
-            JsonPropertyEnum.Five.GetString().Should().Be("Five");
+            JsonPropertyEnum.One.AsString().Should().Be("One");
+            JsonPropertyEnum.Two.AsString().Should().Be("Two");
+            JsonPropertyEnum.Three.AsString().Should().Be("Three");
+            JsonPropertyEnum.Four.AsString().Should().Be("Four");
+            JsonPropertyEnum.Five.AsString().Should().Be("Five");
+        }
+        
+        [Fact]
+        public void Test_JsonPropertyEnum_AsJsonPropertyEnum_Should_Pass()
+        {
+
+            "One".AsJsonPropertyEnum().Should().Be(JsonPropertyEnum.One);
+            "Two".AsJsonPropertyEnum().Should().Be(JsonPropertyEnum.Two);
+            "Three".AsJsonPropertyEnum().Should().Be(JsonPropertyEnum.Three);
+            "Four".AsJsonPropertyEnum().Should().Be(JsonPropertyEnum.Four);
+            "Five".AsJsonPropertyEnum().Should().Be(JsonPropertyEnum.Five);
+            Action act = () => "some invalid value".AsJsonPropertyEnum();
+
+            act.Should().ThrowExactly<ArgumentOutOfRangeException>();
         }
 
         [Fact]
+        public void Test_EnumMemberEnum__AsString_Should_Pass()
+        {
+            EnumMemberEnum.Monday.AsString().Should().Be("monday"); // lowercase on purpose
+            EnumMemberEnum.Tuesday.AsString().Should().Be("Tuesday");
+            EnumMemberEnum.Wednesday.AsString().Should().Be("Wednesday");
+            EnumMemberEnum.Thursday.AsString().Should().Be("Thursday");
+            EnumMemberEnum.Friday.AsString().Should().Be("Friday");
+            EnumMemberEnum.Saturday.AsString().Should().Be("Saturday");
+            EnumMemberEnum.Sunday.AsString().Should().Be("Sunday");
+        }
+        [Fact]
         public void Test_EnumMemberEnum_Should_Pass()
         {
-            EnumMemberEnum.Monday.GetString().Should().Be("monday"); // lowercase on purpose
-            EnumMemberEnum.Tuesday.GetString().Should().Be("Tuesday");
-            EnumMemberEnum.Wednesday.GetString().Should().Be("Wednesday");
-            EnumMemberEnum.Thursday.GetString().Should().Be("Thursday");
-            EnumMemberEnum.Friday.GetString().Should().Be("Friday");
-            EnumMemberEnum.Saturday.GetString().Should().Be("Saturday");
-            EnumMemberEnum.Sunday.GetString().Should().Be("Sunday");
+            "monday".AsEnumMemberEnum().Should().Be(EnumMemberEnum.Monday); // lowercase on purpose
+            "Tuesday".AsEnumMemberEnum().Should().Be(EnumMemberEnum.Tuesday);
+            "Wednesday".AsEnumMemberEnum().Should().Be(EnumMemberEnum.Wednesday);
+            "Thursday".AsEnumMemberEnum().Should().Be(EnumMemberEnum.Thursday);
+            "Friday".AsEnumMemberEnum().Should().Be(EnumMemberEnum.Friday);
+            "Saturday".AsEnumMemberEnum().Should().Be(EnumMemberEnum.Saturday);
+            "Sunday".AsEnumMemberEnum().Should().Be(EnumMemberEnum.Sunday);
+
+            Action act = () => "some invalid value".AsEnumMemberEnum();
+
+            act.Should().ThrowExactly<ArgumentOutOfRangeException>();
         }
     }
 }

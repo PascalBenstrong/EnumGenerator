@@ -2,9 +2,9 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<AssemblyName>EnumGenerator</AssemblyName>
-		<RootNamespace>EnumGenerator</RootNamespace>
-		<LangVersion>9.0</LangVersion>
+		<AssemblyName>EnumToStringGenerator</AssemblyName>
+		<RootNamespace>EnumToStringGenerator</RootNamespace>
+		<LangVersion>latest</LangVersion>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<Description>Simple enum to string generator and string to enum converter</Description>
@@ -12,7 +12,7 @@
 		<Company></Company>
 		<Copyright></Copyright>
 		<RepositoryUrl>https://github.com/PascalBenstrong/EnumGenerator.git</RepositoryUrl>
-		<AssemblyVersion>0.0.1</AssemblyVersion>
+		<AssemblyVersion>0.0.2</AssemblyVersion>
 		<FileVersion>$(AssemblyVersion)</FileVersion>
 		<Version>$(FileVersion)</Version>
 		<PackageTags>C# enum string generator converter</PackageTags>
@@ -27,16 +27,12 @@
 	
 	<PropertyGroup>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.0.1" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <None Remove="bin\Release\netstandard2.0\\EnumGenerator.dll" />
   </ItemGroup>
 
 	<ItemGroup>

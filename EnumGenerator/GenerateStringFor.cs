@@ -1,8 +1,7 @@
-﻿namespace EnumGenerator
+﻿namespace EnumToStringGenerator;
+
+public enum GenerateStringFor
 {
-    public enum GenerateStringFor
-    {
-        All,
-        MarkedEnums
-    }
+    All,
+    MarkedEnums
 }

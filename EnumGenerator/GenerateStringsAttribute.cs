@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace EnumToStringGenerator;
 
-namespace EnumGenerator
+[AttributeUsage(AttributeTargets.Enum, AllowMultiple = false, Inherited = false)]
+public class GenerateStringsAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Enum, AllowMultiple = false, Inherited = true)]
-    public class GenerateStringsAttribute : Attribute
-    {
-    }
 }

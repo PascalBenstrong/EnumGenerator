@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmark", "Benchmark\Benchmark.csproj", "{71E0454A-FAD1-45E8-B3C2-E3CBFC624658}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnumGenerator", "EnumGenerator\EnumGenerator.csproj", "{8F229BCE-9433-4C4F-86BC-09905E20723C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnumToStringGenerator", "EnumGenerator\EnumToStringGenerator.csproj", "{8F229BCE-9433-4C4F-86BC-09905E20723C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleTest", "SampleTest\SampleTest.csproj", "{A3FD8963-999F-4202-96B6-49DC83FF375C}"
 EndProject

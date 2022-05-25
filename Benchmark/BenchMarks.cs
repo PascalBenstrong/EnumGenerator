@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using SampleTest;
-using SampleTest.Generated;
+using SampleTest.Extensions;
 
 namespace Benchmark
 {
@@ -16,11 +16,11 @@ namespace Benchmark
         [Benchmark]
         public void EnumToString_Generated_JsonPropertyName()
         {
-            JsonPropertyEnum.One.GetString();
-            JsonPropertyEnum.Two.GetString();
-            JsonPropertyEnum.Three.GetString();
-            JsonPropertyEnum.Four.GetString();
-            JsonPropertyEnum.Five.GetString();
+            JsonPropertyEnum.One.AsString();
+            JsonPropertyEnum.Two.AsString();
+            JsonPropertyEnum.Three.AsString();
+            JsonPropertyEnum.Four.AsString();
+            JsonPropertyEnum.Five.AsString();
 
         }
 
@@ -37,13 +37,13 @@ namespace Benchmark
         [Benchmark]
         public void EnumToString_Generated_EnumMemberName()
         {
-            EnumMemberEnum.Monday.GetString(); // lowercase on purpose
-            EnumMemberEnum.Tuesday.GetString();
-            EnumMemberEnum.Wednesday.GetString();
-            EnumMemberEnum.Thursday.GetString();
-            EnumMemberEnum.Friday.GetString();
-            EnumMemberEnum.Saturday.GetString();
-            EnumMemberEnum.Sunday.GetString();
+            EnumMemberEnum.Monday.AsString();
+            EnumMemberEnum.Tuesday.AsString();
+            EnumMemberEnum.Wednesday.AsString();
+            EnumMemberEnum.Thursday.AsString();
+            EnumMemberEnum.Friday.AsString();
+            EnumMemberEnum.Saturday.AsString();
+            EnumMemberEnum.Sunday.AsString();
         }
 
         [Benchmark]

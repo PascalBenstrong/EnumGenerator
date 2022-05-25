@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	  <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
 	<PropertyGroup>
@@ -16,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EnumGenerator\EnumGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true"/>
+    <ProjectReference Include="..\EnumGenerator\EnumToStringGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>
