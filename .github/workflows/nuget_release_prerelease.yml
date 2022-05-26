@@ -1,11 +1,10 @@
-name: Release to Nuget
+name: Release to Nuget PreRelease
 
 on:
   push:
     tags:
-      - "!v*-beta*"
-      - "!v*-rc*"
-      - "v*"
+      - "v*-beta*"
+      - "v*-rc*"
   workflow_dispatch:
     branches: [main, nuget]
 
@@ -21,7 +20,7 @@ env:
   GITHUB_SOURCE_URL: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
   DOT_NET_VERSION: 6.*
   DRAFT: false
-  PRERELEASE: false
+  PRERELEASE: true
 
 jobs:
   build:
