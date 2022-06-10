@@ -10,7 +10,7 @@ on:
 
 env:
   TAG_NAME: ${{ github.event.release.tag_name }}
-  PROJECT_PATH: ./EnumGenerator
+  PROJECT_PATH: ./EnumToStringGenerator
   ARTIFACT_NAME: EnumToStringGenerator
   PACKAGE_RELEASE_NOTES_URL: https://github.com/${{ github.repository }}/releases/tag/
   PACKAGE_OUTPUT_DIRECTORY: ${{ github.workspace }}/output
