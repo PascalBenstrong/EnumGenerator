@@ -22,7 +22,6 @@
 	  <ProjectReference Include="..\EnumToStringGenerator\EnumToStringGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 
 	  <!-- Rererence the attributes project "treat as an analyzer"-->
-	  <ProjectReference Include="..\EnumToStringGenerator.Attributes\EnumToStringGenerator.Attributes.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
 	  
   </ItemGroup>
 

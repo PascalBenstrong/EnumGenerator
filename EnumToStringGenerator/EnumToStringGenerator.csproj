@@ -44,7 +44,7 @@
 	<!-- Reference the attributes from the generator to compile against them -->
 	<!-- Ensure we specify PrivateAssets so the NuGet doesn't have any dependencies -->
     <ItemGroup>
-      <ProjectReference Include="..\EnumToStringGenerator.Attributes\EnumToStringGenerator.Attributes.csproj" />
+      <ProjectReference Include="..\EnumToStringGenerator.Attributes\EnumToStringGenerator.Attributes.csproj" PrivateAssets="All"/>
     </ItemGroup>
 
 	<ItemGroup>
