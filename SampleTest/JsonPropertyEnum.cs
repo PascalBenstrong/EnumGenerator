@@ -1,8 +1,8 @@
 ﻿
-[assembly: GenerateEnumStringsFor(GenerateStringFor.MarkedEnums)]
+//[assembly: GenerateEnumStringsFor(GenerateStringFor.MarkedEnums)]
 namespace SampleTest
 {
-    [GenerateStrings]
+    //[GenerateStrings]
     public enum JsonPropertyEnum
     {
         [JsonPropertyName("One")]

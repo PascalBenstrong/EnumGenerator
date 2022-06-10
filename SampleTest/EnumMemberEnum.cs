@@ -1,7 +1,7 @@
 ﻿
 namespace SampleTest
 {
-    [GenerateStrings]
+    //[GenerateStrings]
     public enum EnumMemberEnum
     {
         [EnumMember(Value = "monday")]

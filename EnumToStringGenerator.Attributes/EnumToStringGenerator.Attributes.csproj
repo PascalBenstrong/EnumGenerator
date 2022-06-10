@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<AssemblyName>EnumToStringGenerator.Attributes</AssemblyName>
+		<RootNamespace>EnumToStringGenerator.Attributes</RootNamespace>
+		<LangVersion>latest</LangVersion>
+		<Description>Attributes for EnumToStringGenerator</Description>
+		<RepositoryUrl>https://github.com/PascalBenstrong/EnumGenerator.git</RepositoryUrl>
+		<AssemblyVersion>0.0.2</AssemblyVersion>
+		<FileVersion>$(AssemblyVersion)</FileVersion>
+		<Version>$(FileVersion)</Version>
+	</PropertyGroup>
+
+</Project>

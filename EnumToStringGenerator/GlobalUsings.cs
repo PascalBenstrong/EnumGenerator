@@ -8,6 +8,7 @@ global using Microsoft.CodeAnalysis.CSharp.Syntax;
 global using System.Linq;
 global using EnumToStringGenerator.Definitions;
 global using EnumToStringGenerator.Parsers;
+global using EnumToStringGenerator;
 
 #if DEBUG
 global using System.Diagnostics;

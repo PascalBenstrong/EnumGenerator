@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	  <LangVersion>latest</LangVersion>
@@ -9,15 +9,21 @@
 
 	<PropertyGroup>
 		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
-		<!--<CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>-->
+		<!--CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath-->
 	</PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Text.Json" Version="6.0.1" />
+    <PackageReference Include="System.Text.Json" Version="6.0.4" />
+	  <!--PackageReference Include="EnumToStringGenerator" Version="0.0.1" PrivateAssets="All" /-->
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EnumGenerator\EnumToStringGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" PrivateAssets="All" />
+	  <!-- Rererence the source generator project -->
+	  <ProjectReference Include="..\EnumToStringGenerator\EnumToStringGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+
+	  <!-- Rererence the attributes project "treat as an analyzer"-->
+	  <ProjectReference Include="..\EnumToStringGenerator.Attributes\EnumToStringGenerator.Attributes.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
+	  
   </ItemGroup>
 
 </Project>
