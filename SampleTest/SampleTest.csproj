@@ -18,11 +18,14 @@
   </ItemGroup>
 
   <ItemGroup>
-	  <!-- Rererence the source generator project -->
-	  <ProjectReference Include="..\EnumToStringGenerator\EnumToStringGenerator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <!-- Rererence the source generator project -->
+    <ProjectReference Include="..\EnumToStringGenerator\EnumToStringGenerator.csproj"
+        OutputItemType="Analyzer" 
+        ReferenceOutputAssembly="false" /> <!-- Don't reference the generator dll -->
 
-	  <!-- Rererence the attributes project "treat as an analyzer"-->
-	  
+    <!-- Rererence the attributes project "treat as an analyzer"-->
+    <ProjectReference Include="..\EnumToStringGenerator.Attributes\EnumToStringGenerator.Attributes.csproj" 
+        OutputItemType="Analyzer" 
+        ReferenceOutputAssembly="true" /> <!-- We DO reference the attributes dll -->
   </ItemGroup>
-
 </Project>
