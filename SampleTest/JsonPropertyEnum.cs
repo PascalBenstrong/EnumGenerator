@@ -9,7 +9,7 @@ namespace SampleTest
         One = 1,
         [JsonPropertyName("Two")]
         Two = 2,
-        [JsonPropertyName("Three")]
+        [JsonPropertyName("three")]
         Three = 3,
         [JsonPropertyName("Four")]
         Four = 4,

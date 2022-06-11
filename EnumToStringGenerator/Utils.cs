@@ -25,10 +25,10 @@ internal static class Utils
     internal static string GetMemberValue(EnumMemberDeclarationSyntax enumMember)
     {
         var attribute = enumMember.AttributeLists.SelectMany(x => x.Attributes)
-            .FirstOrDefault(x => x.Name.ToString() == "JsonPropertyName");
+            .FirstOrDefault(x => x.Name.ToString().Trim() == "JsonPropertyName");
 
-        attribute = attribute is null ? enumMember.AttributeLists.SelectMany(x => x.Attributes)
-            .FirstOrDefault(x => x.Name.ToString() == "EnumMember") : null;
+        attribute ??= enumMember.AttributeLists.SelectMany(x => x.Attributes)
+            .FirstOrDefault(x => x.Name.ToString().Trim() == "EnumMember");
 
         if (attribute is not null)
         {

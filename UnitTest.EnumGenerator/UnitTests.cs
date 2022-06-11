@@ -17,7 +17,7 @@ namespace UnitTest.EnumGenerator
 
             JsonPropertyEnum.One.AsString().Should().Be("One");
             JsonPropertyEnum.Two.AsString().Should().Be("Two");
-            JsonPropertyEnum.Three.AsString().Should().Be("Three");
+            JsonPropertyEnum.Three.AsString().Should().Be("three");
             JsonPropertyEnum.Four.AsString().Should().Be("Four");
             JsonPropertyEnum.Five.AsString().Should().Be("Five");
         }
@@ -28,7 +28,7 @@ namespace UnitTest.EnumGenerator
 
             "One".AsJsonPropertyEnum().Should().Be(JsonPropertyEnum.One);
             "Two".AsJsonPropertyEnum().Should().Be(JsonPropertyEnum.Two);
-            "Three".AsJsonPropertyEnum().Should().Be(JsonPropertyEnum.Three);
+            "three".AsJsonPropertyEnum().Should().Be(JsonPropertyEnum.Three);
             "Four".AsJsonPropertyEnum().Should().Be(JsonPropertyEnum.Four);
             "Five".AsJsonPropertyEnum().Should().Be(JsonPropertyEnum.Five);
             Action act = () => "some invalid value".AsJsonPropertyEnum();
